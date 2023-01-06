@@ -8,15 +8,16 @@ public class GameManager : MonoBehaviour
     //[SerializeField]List<Mesh> _Meshes;
     [SerializeField] float _distance;
     [Tooltip("0: cube form 1: Capsule 2: Cylinder 3: Sphere")]
-    [SerializeField][Range(0,3)] int _typeObj;
+    [SerializeField][Range(0, 3)] int _typeObj;
     [SerializeField] List<GameObject> _object;
-    [SerializeField] int _itemCount;
-
-
+    [SerializeField] int _maxObjectsLimit;
+    int _objectLimit;
+    public List<GameObject> _spawnedItems;
     Camera _camera;
     Vector3 _spawn;
     Vector3 _mousePos;
 
+    int _tableCount;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,21 +27,53 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
-            SpawnCube();
+            checkLimit();
         }
     }
-    private void SpawnCube()
+    private void checkLimit()
     {
-        if(_itemCount<= 10)
+        if (_objectLimit < _maxObjectsLimit)
         {
-        _mousePos = Input.mousePosition;
-        _mousePos.z = _distance;
+            SpawnItem();
+            _objectLimit++;
+        }
+        else
+        {
+            //Destroy(_spawnedItems[0]);
+            //_spawnedItems.Remove(_spawnedItems[0]);
+            //SpawnItem();
+            GetMousePos();
+            if (_tableCount < _maxObjectsLimit -1)
+            {
+                MoveOldObject();
+                _tableCount++;
+             }
+            else{
+                Debug.Log(_tableCount);
+                MoveOldObject();
+                _tableCount = 0;
+            }
+        }
+    }
+    private void SpawnItem()
+    {
+        GetMousePos();
         _spawn = _camera.ScreenToWorldPoint(_mousePos);
         //_object.GetComponent<MeshFilter>().mesh = _Meshes[_objectForm];
-        Instantiate(_object[_typeObj],_spawn,Quaternion.identity);
-        _itemCount++;
-        }
+        var spawned = Instantiate(_object[_typeObj], _spawn, Quaternion.identity);
+        _spawnedItems.Add(spawned);
     }
+    private Vector3 GetMousePos()
+    {
+        _mousePos = Input.mousePosition;
+        _mousePos.z = _distance;
+        return _mousePos;
+    }
+    private void MoveOldObject()
+    {
+        _spawnedItems[_tableCount].transform.position = _camera.ScreenToWorldPoint(_mousePos);
+    }
+
 }
