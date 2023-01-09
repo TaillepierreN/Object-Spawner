@@ -185,6 +185,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 408295519}
+  - component: {fileID: 408295520}
   m_Layer: 0
   m_Name: SpawnArea
   m_TagString: Untagged
@@ -207,6 +208,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &408295520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 408295518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 806e3d21bf13ff348a4e063ed5dc0599, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _object: {fileID: 6997676682955050739, guid: 1db78a08530b9dc498fc9e1d137da38b, type: 3}
+  _objectLimit: 15
+  _spawnRadius: 5
+  _spawnRate: 0.2
+  spawnedObjects: []
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
